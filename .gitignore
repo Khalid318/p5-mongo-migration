@@ -1,7 +1,34 @@
+# --- Environnement ---
 .venv/
+env/
+venv/
 __pycache__/
 *.pyc
 *.pyo
 
-data/*
-!data/healthcare_dataset_cleaned.csv
+# --- IDE ---
+.vscode/
+.idea/
+
+# --- Fichiers système ---
+.DS_Store
+Thumbs.db
+
+# --- Données ---
+# Ignorer tous les CSV sauf celui du projet
+data/*.csv
+!data/healthcare_dataset.csv
+
+# Ignorer JSON exportés
+data/*.json
+
+# --- Tests ---
+# Pytest cache
+.pytest_cache/
+
+# --- Logs ---
+*.log
+
+# --- Docker ---
+*.pid
+
