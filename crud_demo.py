@@ -1,6 +1,7 @@
 
 # Démonstration CRUD sur la collection patients (Create, Read, Update, Delete)
 
+import os
 from datetime import datetime
 from pymongo import MongoClient
 
@@ -10,7 +11,8 @@ TEST_NAME = "Akira Toriyama"
 
 
 def get_collection():
-    client = MongoClient("mongodb://localhost:27017", serverSelectionTimeoutMS=2000)
+    MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017")
+    client = MongoClient(MONGO_URI)
     client.admin.command("ping")
     return client[DB_NAME][COLL_NAME]
 

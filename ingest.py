@@ -1,15 +1,17 @@
 # lire le CSV et l'insérer dans MongoDB (healthcare_db.patients)
+import os
 import pandas as pd
 from pymongo import MongoClient, ASCENDING, DESCENDING
 from pymongo.errors import OperationFailure
 
-CSV_PATH = "data/healthcare_dataset.csv"  # ou _cleaned.csv si tu préfères
+CSV_PATH = "data/healthcare_dataset.csv"  
 DB_NAME = "healthcare_db"
 COLL_NAME = "patients"
 
 def main():
     # connexion Mongo local
-    client = MongoClient("mongodb://localhost:27017")
+    MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017")
+    client = MongoClient(MONGO_URI)
     col = client[DB_NAME][COLL_NAME]
 
     # lire le CSV
@@ -47,9 +49,9 @@ def main():
     # insertion en base
     records = df.to_dict(orient="records")
     col.insert_many(records)
-    print(f"✅ Import OK : {len(records)} documents (doublons retirés : {before - after})")
+    print(f"Import OK : {len(records)} documents (doublons retirés : {before - after})")
 
-    # index usuels
+    # index 
     col.create_index([("Name", ASCENDING)])
     col.create_index([("Doctor", ASCENDING), ("Date of Admission", DESCENDING)])
     col.create_index([("Date of Admission", DESCENDING)])
@@ -61,12 +63,12 @@ def main():
             unique=True,
             name="uniq_patient_encounter"
         )
-        print("✅ Index unique créé : uniq_patient_encounter")
+        print("Index unique créé : uniq_patient_encounter")
     except OperationFailure as e:
-        # l'index existe déjà ou des doublons empêchent sa création
-        print(f"ℹ️ Index unique non créé : {e}")
+        # fail --> l'index existe déjà ou des doublons empêchent sa création
+        print(f"Index unique non créé : {e}")
 
-    print("✅ Index standards : Name, Doctor+Date, Date of Admission")
+    print("Index standards : Name, Doctor+Date, Date of Admission")
 
 if __name__ == "__main__":
     main()

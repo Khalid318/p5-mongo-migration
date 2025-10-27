@@ -1,5 +1,6 @@
 # Exporte la collection patients en JSON et CSV (dossier data/)
 
+import os
 import json, csv
 from pymongo import MongoClient
 
@@ -16,7 +17,8 @@ FIELDS = [
 ]
 
 # Connexion Mongo
-client = MongoClient("mongodb://localhost:27017", serverSelectionTimeoutMS=2000)
+MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017")
+client = MongoClient(MONGO_URI)
 client.admin.command("ping")
 col = client[DB_NAME][COLL_NAME]
 
