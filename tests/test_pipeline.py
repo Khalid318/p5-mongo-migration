@@ -22,7 +22,8 @@ def run_script(script):
 def test_ingestion():
     """Test ingestion MongoDB."""
     run_script("ingest.py")
-    client = MongoClient("mongodb://localhost:27017")
+    MONGO_URI = os.getenv('MONGO_URI', 'mongodb://localhost:27017')
+    client = MongoClient(MONGO_URI)
     col = client[DB_NAME][COLL_NAME]
     assert col.count_documents({}) > 0, "La base Mongo est vide après ingestion."
 
@@ -30,7 +31,8 @@ def test_ingestion():
 def test_crud():
     """Test CRUD sur patient fictif."""
     run_script("crud_demo.py")
-    client = MongoClient("mongodb://localhost:27017")
+    MONGO_URI = os.getenv('MONGO_URI', 'mongodb://localhost:27017')
+    client = MongoClient(MONGO_URI)
     col = client[DB_NAME][COLL_NAME]
     assert col.find_one({"Name": "Akira Toriyama"}) is None, "CRUD : le document test n'a pas été supprimé."
 
