@@ -33,3 +33,6 @@ data/*.json
 *.pid
 
 .env
+*.swp
+*.swo
+*~
