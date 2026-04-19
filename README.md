@@ -4,6 +4,9 @@ Projet de formation où je migre un CSV de données médicales (55 500 lignes) v
 
 Tout est dockerisé pour que ça tourne sur n'importe quelle machine sans galère d'installation.
 
+<img width="1772" height="564" alt="p5" src="https://github.com/user-attachments/assets/dd5cd490-3caa-468d-a588-2934ba360249" />
+
+
 ## Ce que fait le projet
 
 - Lit un gros fichier CSV (données de santé)
